@@ -1,0 +1,39 @@
+﻿.venv/
+__pycache__/
+*.pyc
+
+# secrets
+kaggle.json
+.env
+*.key
+
+# datasets / videos
+data/
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.mpeg
+*.mpg
+
+# checkpoints and generated outputs
+runs/
+outputs/
+output_2/
+outputs_1/
+hf_space/
+*.pt
+*.pth
+*.ckpt
+
+# broken/old deployment script copies
+prepare_hf_space.ps1
+prepare_hf_space_v2.ps1
+run_final_app.ps1
+
+# editor/system
+.vscode/
+.cursor/
+.DS_Store
+Thumbs.db

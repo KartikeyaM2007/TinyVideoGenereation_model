@@ -1,0 +1,44 @@
+project_name: video2f_class_diffusion
+seed: 42
+
+data:
+  videos_root: data/videos_clean
+  output_dir: data/frame_pairs
+  metadata_csv: data/frame_pairs_metadata.csv
+  classes: ["Normal", "Fighting", "RoadAccidents"]
+  resolution: 64
+  pairs_per_video: 32
+  frame_gap: 12
+  max_videos_per_class: 60
+
+model:
+  in_channels: 6
+  base_channels: 32
+  channel_mults: [1, 2, 4]
+  num_classes: 3
+  time_emb_dim: 128
+  class_emb_dim: 128
+  dropout: 0.1
+
+train:
+  batch_size: 6
+  epochs: 150
+  lr: 0.0002
+  num_workers: 0
+  mixed_precision: true
+  save_every_epochs: 10
+  output_dir: runs/video2f_class
+  grad_clip: 1.0
+
+diffusion:
+  timesteps: 1000
+  beta_start: 0.0001
+  beta_end: 0.02
+
+sample:
+  checkpoint: runs/video2f_class/latest.pt
+  class_name: Fighting
+  num_samples: 4
+  guidance_scale: 1.0
+  sampling_steps: 100
+  output_dir: outputs/video2f_samples

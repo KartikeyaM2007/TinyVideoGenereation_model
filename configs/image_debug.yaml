@@ -1,0 +1,46 @@
+project_name: AnomImageDebug
+seed: 42
+
+data:
+  videos_csv: data/captions.csv
+  clips_dir: data/image_clips
+  metadata_csv: data/image_metadata.csv
+  embeddings_path: data/image_text_embeddings.pt
+  resolution: 64
+  num_frames: 1
+  frame_stride: 1
+  clips_per_video: 128
+
+text:
+  encoder_name: sentence-transformers/all-MiniLM-L6-v2
+  embedding_dim: 384
+
+model:
+  in_channels: 3
+  base_channels: 32
+  channel_mults: [1, 2, 4]
+  dropout: 0.1
+
+train:
+  batch_size: 2
+  grad_accum_steps: 4
+  epochs: 150
+  lr: 0.0001
+  num_workers: 0
+  mixed_precision: true
+  save_every_epochs: 1
+  output_dir: runs/anom_image_debug
+  cond_drop_prob: 0.0
+
+diffusion:
+  timesteps: 1000
+  beta_start: 0.0001
+  beta_end: 0.02
+
+sample:
+  checkpoint: runs/anom_image_debug/latest.pt
+  prompt: fighting
+  output: outputs/fighting_image.gif
+  num_samples: 1
+  guidance_scale: 1.0
+  sampling_steps: 1000

@@ -1,0 +1,44 @@
+project_name: image2d_class_diffusion
+seed: 42
+
+data:
+  videos_root: data/videos_clean
+  output_dir: data/class_images
+  metadata_csv: data/class_images_metadata.csv
+  classes: ["Normal", "Fighting", "RoadAccidents"]
+  resolution: 64
+  frames_per_video: 32
+  max_videos_per_class: 60
+  frame_sampling: uniform
+
+model:
+  in_channels: 3
+  base_channels: 32
+  channel_mults: [1, 2, 4]
+  num_classes: 3
+  time_emb_dim: 128
+  class_emb_dim: 128
+  dropout: 0.1
+
+train:
+  batch_size: 8
+  epochs: 200
+  lr: 0.0002
+  num_workers: 0
+  mixed_precision: true
+  save_every_epochs: 5
+  output_dir: runs/image2d_class
+  grad_clip: 1.0
+
+diffusion:
+  timesteps: 1000
+  beta_start: 0.0001
+  beta_end: 0.02
+
+sample:
+  checkpoint: runs/image2d_class/latest.pt
+  class_name: RoadAccidents
+  num_samples: 4
+  guidance_scale: 2.0
+  sampling_steps: 100
+  output: outputs/sample_class_grid.png

@@ -1,0 +1,39 @@
+project_name: frame_transition_generator
+seed: 42
+
+data:
+  metadata_csv: data/frame_pairs_metadata.csv
+  resolution: 64
+  classes: ["Normal", "Fighting", "RoadAccidents"]
+
+model:
+  in_channels: 3
+  out_channels: 3
+  base_channels: 48
+  num_classes: 3
+  class_emb_dim: 128
+  dropout: 0.05
+  predict_residual: true
+
+train:
+  batch_size: 8
+  epochs: 100
+  lr: 0.0002
+  num_workers: 0
+  mixed_precision: true
+  output_dir: runs/transition
+  save_every_epochs: 10
+  grad_clip: 1.0
+  l1_weight: 1.0
+  mse_weight: 0.3
+  temporal_weight: 0.6
+
+sample:
+  transition_checkpoint: runs/transition/latest.pt
+  image_diffusion_config: configs/image2d_class.yaml
+  image_diffusion_checkpoint: runs/image2d_class/latest.pt
+  class_name: Fighting
+  num_frames: 4
+  output_dir: outputs/transition_samples
+  image_sampling_steps: 100
+  guidance_scale: 1.0
